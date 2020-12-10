@@ -6,7 +6,8 @@ IS_PART_TIME=2
 salary=0
 RATE_PER_HR=20
 MAX_WORKING_DAYS=20;
-MAX_WORKING_HRS=60;
+MAX_WORKING_HRS=100;
+
 
 #VARIABLES
 totalWorkingDays=1;
@@ -14,7 +15,7 @@ totalWorkingHrs=0;
 
 function getWorkingHrs()
 {
-        case $1 in
+        case $empCheck in
                 $IS_FULL_TIME)
                 empHrs=8
                 ;;
@@ -34,10 +35,15 @@ while [[ $totalWorkingHrs -lt $MAX_WORKING_HRS && $totalWorkingDays -lt $MAX_WOR
 do
         ((totalWorkingDays++))
         empCheck=$((RANDOM%3))
-        empHrs="$getWorkingHrs $empCheck "
+        empHrs="$(getWorkingHrs $empCheck)"
+        dailyWage=$(($empHrs*$RATE_PER_HR))
+        echo "Day"
+        dailyWageArray[$totalWorkingDays]=$dailyWage
         totalWorkingHrs=$(( $totalWorkingHrs+$empHrs ))
 
 done
 totalSalary=$(($totalWorkingHrs*$RATE_PER_HR ))
+echo "Array elements" ${dailyWageArray[@]}
+echo "Index" ${!dailyWageArray[@]}
 
 echo "Employee wage per month:" $totalSalary
