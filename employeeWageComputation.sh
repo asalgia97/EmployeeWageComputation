@@ -1,20 +1,25 @@
 #!/bin/bash -x
-echo "Welcome to EmployeeWage Computation"
-randomCheck=$((RANDOM%3))
+empCheck=$((RANDOM%3))
 isFullTime=1
-isPartTime=1
+isPartTime=2
 salary=0
 ratePerHr=20
-if [ $isFullTime -eq $randomCheck ]
-then
-        numOfworkingHrs=8
-elif [ $isPartTime -eq $randomCheck ]
-then
-        numOfworkingHrs=4
-else
-        numOfworkingHrs=0
-fi
+case $empCheck in
+        $isFullTime)
+        echo "FullTime Employee"
+        empHrs=8
+        ;;
+        $isPartTime)
+        echo "PartTime Employee"
+        empHrs=4
+        ;;
+        *)
+        echo "Employee is Absent"
+        empHrs=0
+        ;;
+esac
 
-salary=$(( $ratePerHr*$numOfworkingHrs ))
+salary=$(( $ratePerHr*$empHrs ))
 echo "Employee wage:" $salary
+
 
